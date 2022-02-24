@@ -1,6 +1,4 @@
 import pandas as pd
-import xlwings as xw
-from pathlib import Path
 
 def write_result():
 		PosterID = []
@@ -42,31 +40,8 @@ def write_result():
 
 		df.to_excel('./result.xls', index = False)
 
-def del_cols_rows():
-    vba_book = xw.Book("./macros.xlsm")
-    vba_macro = vba_book.macro("Get_All_File_from_Folder")
-    try:
-        vba_macro()
-    except:
-        print("Error-xy-error")
-    print("Empty rows and cols deleted")
-
-def merge_files():
-    min_excel_file_size = 1
-    path = Path("./input")
-    
-    df = pd.concat([pd.read_excel(f)
-                    for f in path.glob("*.xls")
-                    if f.stat().st_size >= min_excel_file_size],
-                    ignore_index = True)    
-    
-    df.to_excel('./input.xls', index = False)
-    print("Files are merged")
-
 def main():
-    del_cols_rows()
-    merge_files()
-    #write_result()
+    write_result()
 
 if __name__ == '__main__':
     main()
